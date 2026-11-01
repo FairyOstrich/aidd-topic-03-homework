@@ -1,0 +1,78 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+    <title>Мой портфель</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Мои позиции</h3>
+        <a href="{% url 'dashboard:portfolio_create' %}" class="btn btn-primary">Добавить позицию</a>
+    </div>
+
+    {% if positions %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Тикер</th>
+                <th scope="col">Акция</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Цена покупки</th>
+                <th scope="col">Текущая цена</th>
+                <th scope="col">Стоимость</th>
+                <th scope="col">Доходность</th>
+                {% if user.is_authenticated %}
+                    <th scope="col">Управление</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for position in positions %}
+                {% with share=position.share %}
+                <tr>
+                    <td>{{ share.ticker }}</td>
+                    <td>{{ share.name }}</td>
+                    <td>{{ position.quantity }}</td>
+                    <td>{{ position.purchase_price }} {{ share.currency }}</td>
+                    <td>
+                        {% if share.last_price is not None %}
+                            {{ share.last_price }} {{ share.currency }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if position.current_value is not None %}
+                            {{ position.current_value }} {{ share.currency }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if position.profit is not None %}
+                            {% if position.profit >= 0 %}
+                                <span style="color: green">+{{ position.profit }} ({{ position.profit_percent }}%)</span>
+                            {% else %}
+                                <span style="color: red">{{ position.profit }} ({{ position.profit_percent }}%)</span>
+                            {% endif %}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    {% if user.is_authenticated %}
+                        <td>
+                            <a href="{% url 'dashboard:portfolio_update' position.id %}" class="btn btn-secondary btn-sm">Редактировать</a>
+                            <a href="{% url 'dashboard:portfolio_delete' position.id %}" class="btn btn-danger btn-sm">Удалить</a>
+                        </td>
+                    {% endif %}
+                </tr>
+                {% endwith %}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Позиций еще нет. Добавьте первую позицию.</p>
+    {% endif %}
+
+{% endblock %}

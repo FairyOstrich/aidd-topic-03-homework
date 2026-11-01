@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>Investing / Авторизация</title>
+
+    {% load static %}
+    <link href="{% static 'user/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'user/css/signin.css'%}" rel="stylesheet">
+
+</head>
+<body>
+
+<main class="form-signin">
+    <a href="{% url 'dashboard:index' %}" class="btn btn-secondary btn-back">← Назад на главную</a>
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+</body>
+</html>

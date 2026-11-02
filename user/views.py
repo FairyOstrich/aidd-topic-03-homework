@@ -10,7 +10,7 @@ class AuthView(View):
 
     @staticmethod
     def get(request):
-        return render(request, "user/auth.html", {"form": AuthForm})
+        return render(request, "user/auth.html", {"form": AuthForm()})
 
     @staticmethod
     def post(request):
@@ -46,7 +46,7 @@ class RegistrationView(View):
 
     @staticmethod
     def get(request):
-        return render(request, "user/registration.html", {"form": RegistrationForm})
+        return render(request, "user/registration.html", {"form": RegistrationForm()})
 
     @staticmethod
     def post(request):

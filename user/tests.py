@@ -6,6 +6,23 @@ from user.forms import RegistrationForm
 
 
 class UserFlowTests(TestCase):
+    def test_login_page_renders_input_fields(self):
+        response = self.client.get(reverse("user:auth"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'name="email"')
+        self.assertContains(response, 'name="password"')
+        self.assertNotContains(response, "EmailField object")
+
+    def test_registration_page_renders_input_fields(self):
+        response = self.client.get(reverse("user:registration"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'name="email"')
+        self.assertContains(response, 'name="password1"')
+        self.assertContains(response, 'name="password2"')
+        self.assertNotContains(response, "EmailField object")
+
     def test_registration_normalizes_email_and_logs_user_in(self):
         response = self.client.post(
             reverse("user:registration"),

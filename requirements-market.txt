@@ -1,0 +1,1 @@
+git+https://github.com/Tinkoff/invest-python.git@1cc84950266d62cd0bc7a43ad764dddfd4252630#egg=tinkoff-investments
